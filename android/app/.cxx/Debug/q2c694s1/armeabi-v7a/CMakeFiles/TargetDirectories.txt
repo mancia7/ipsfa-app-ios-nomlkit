@@ -1,0 +1,2 @@
+C:/Users/dmancia/Desktop/flutter/ipsfa/ipsfa/android/app/.cxx/Debug/q2c694s1/armeabi-v7a/CMakeFiles/edit_cache.dir
+C:/Users/dmancia/Desktop/flutter/ipsfa/ipsfa/android/app/.cxx/Debug/q2c694s1/armeabi-v7a/CMakeFiles/rebuild_cache.dir
