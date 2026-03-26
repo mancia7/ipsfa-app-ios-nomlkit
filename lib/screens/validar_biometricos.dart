@@ -185,25 +185,19 @@ class _ValidarVivenciaState extends State<ValidarVivencia>
   }
 
   Future<void> requestPermissions() async {
-    final cameraStatus = await Permission.camera.request();
+  final status = await Permission.camera.request();
 
-    if (cameraStatus.isGranted) {
-      if (_isDisposed) return;
-      _initializeCamera(_currentCameraIndex);
-      //print('✅ Permisos concedidos después de solicitar');
-    }
-    if (cameraStatus.isDenied) {
-      final result = await Permission.camera.request();
-      if (result.isGranted) {
-        if (_isDisposed) return;
-        _initializeCamera(_currentCameraIndex);
-      } else {
-        await openAppSettings();
-      }
-    } else if (cameraStatus.isPermanentlyDenied) {
-      await openAppSettings();
-    }
+  if (_isDisposed) return;
+
+  if (status.isGranted) {
+    _initializeCamera(_currentCameraIndex);
+  } else if (status.isDenied) {
+    // Usuario negó, puedes mostrar mensaje si quieres
+    //print("Permiso de cámara denegado");
+  } else if (status.isPermanentlyDenied) {
+    await openAppSettings();
   }
+}
 
   // Inicializa la cámara actual
   void _initializeCamera(int index) async {
@@ -221,7 +215,7 @@ class _ValidarVivenciaState extends State<ValidarVivencia>
     _initializeControllerFuture = _controller.initialize();
     await _initializeControllerFuture;
     if (!mounted) return;
-    _cameraReady = true;
+    _cameraReady = true;  
 
     if (mounted) {
       setState(() {});

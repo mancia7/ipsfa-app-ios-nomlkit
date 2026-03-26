@@ -61,6 +61,8 @@ class _GetBiometricosState extends State<GetBiometricos> with WidgetsBindingObse
   
   final ValueNotifier<bool> _showCounter =ValueNotifier(false);
 
+  bool _isDisposed=false;
+
   double _previewWidth = 0;
   double _previewHeight = 0;
   GeneralMethods general = GeneralMethods();
@@ -117,6 +119,7 @@ class _GetBiometricosState extends State<GetBiometricos> with WidgetsBindingObse
 
   @override
   void dispose() {
+    _isDisposed = true;
     WidgetsBinding.instance.removeObserver(this);
     _controller.dispose();
     faceDetector.close();
@@ -228,23 +231,20 @@ class _GetBiometricosState extends State<GetBiometricos> with WidgetsBindingObse
     await flutterTts.speak(text);
   }
 
-  Future<void> requestPermissions() async {
-    final cameraStatus = await Permission.camera.request();
+Future<void> requestPermissions() async {
+  final status = await Permission.camera.request();
 
-    if (cameraStatus.isGranted) {
-      _initializeCamera();
-    }
-    if (cameraStatus.isDenied) {
-      final result = await Permission.camera.request();
-      if (result.isGranted) {
-        _initializeCamera();
-      } else {
-        await openAppSettings();
-      }
-    } else if (cameraStatus.isPermanentlyDenied) {
-      await openAppSettings();
-    }
+  if (_isDisposed) return;
+
+  if (status.isGranted) {
+    _initializeCamera();
+  } else if (status.isDenied) {
+    // Usuario negó, puedes mostrar mensaje si quieres
+    //print("Permiso de cámara denegado");
+  } else if (status.isPermanentlyDenied) {
+    await openAppSettings();
   }
+}
 
   // Inicializa la cámara actual
   void _initializeCamera() async {
