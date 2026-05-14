@@ -99,7 +99,7 @@ class _MyAppBarState extends State<MyAppBar> {
                             child: Text(
                               widget.title,
                               style:
-                                  TextStyle(color: Colors.white, fontSize: 0.1 * textScale,fontWeight: FontWeight.bold),
+                                  TextStyle(color: Colors.white, fontSize: (textScale * 0.055).clamp(20.0, 32.0),fontWeight: FontWeight.bold),
                             ),
                         ),
                       )
